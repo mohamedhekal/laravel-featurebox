@@ -1,0 +1,55 @@
+name: Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, fileinfo
+        coverage: none
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-interaction
+
+    - name: Run tests
+      run: vendor/bin/phpunit
+
+    - name: Check code style
+      run: vendor/bin/pint --test
+
+    - name: Build package
+      run: composer install --no-dev --optimize-autoloader
+
+    - name: Create package archive
+      run: |
+        tar -czf laravel-featurebox.tar.gz \
+          --exclude='.git' \
+          --exclude='.github' \
+          --exclude='tests' \
+          --exclude='vendor' \
+          --exclude='node_modules' \
+          --exclude='coverage' \
+          --exclude='.gitignore' \
+          --exclude='.gitattributes' \
+          --exclude='phpunit.xml' \
+          --exclude='Makefile' \
+          --exclude='package.json' \
+          .
+
+    - name: Upload package artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: laravel-featurebox-package
+        path: laravel-featurebox.tar.gz
+        retention-days: 30 
