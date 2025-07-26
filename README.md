@@ -5,7 +5,6 @@
 [![Code Style](https://github.com/mohamedhekal/laravel-featurebox/workflows/Code%20Style/badge.svg)](https://github.com/mohamedhekal/laravel-featurebox/actions?query=workflow%3A%22Code+Style%22)
 [![Total Downloads](https://img.shields.io/packagist/dt/mohamedhekal/laravel-featurebox.svg)](https://packagist.org/packages/mohamedhekal/laravel-featurebox)
 [![License](https://img.shields.io/github/license/mohamedhekal/laravel-featurebox.svg)](https://github.com/mohamedhekal/laravel-featurebox/blob/main/LICENSE)
-[![Code Coverage](https://img.shields.io/codecov/c/github/mohamedhekal/laravel-featurebox)](https://codecov.io/gh/mohamedhekal/laravel-featurebox)
 
 > A simple, flexible feature toggle system for Laravel — control the visibility of features across environments, users, and conditions.
 
