@@ -1,0 +1,60 @@
+{
+    "name": "mohamedhekal/laravel-featurebox",
+    "description": "A simple, flexible feature toggle system for Laravel — control the visibility of features across environments, users, and conditions.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "feature-flags",
+        "feature-toggles",
+        "feature-management",
+        "laravel-package"
+    ],
+    "authors": [
+        {
+            "name": "Mohamed Hekal",
+            "email": "mohamedhekal@gmail.com",
+            "homepage": "https://github.com/mohamedhekal"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0|^11.0",
+        "illuminate/support": "^10.0|^11.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^10.0",
+        "laravel/pint": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MohamedHekal\\LaravelFeatureBox\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MohamedHekal\\LaravelFeatureBox\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MohamedHekal\\LaravelFeatureBox\\FeatureBoxServiceProvider"
+            ],
+            "aliases": {
+                "FeatureBox": "MohamedHekal\\LaravelFeatureBox\\Facades\\FeatureBox"
+            }
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

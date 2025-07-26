@@ -1,0 +1,50 @@
+<?php
+
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | FeatureBox Configuration
+    |--------------------------------------------------------------------------
+    |
+    | This file contains the configuration for the FeatureBox package.
+    |
+    */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cache Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Configure how long features should be cached for performance.
+    | Set to null to disable caching.
+    |
+    */
+    'cache' => [
+        'enabled' => env('FEATUREBOX_CACHE_ENABLED', true),
+        'ttl' => env('FEATUREBOX_CACHE_TTL', 300), // 5 minutes
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default Conditions
+    |--------------------------------------------------------------------------
+    |
+    | Default conditions that will be applied to all features unless
+    | overridden when enabling a feature.
+    |
+    */
+    'default_conditions' => [
+        // 'environments' => ['production'],
+        // 'user_roles' => ['admin'],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Database Table
+    |--------------------------------------------------------------------------
+    |
+    | The database table name for storing features.
+    |
+    */
+    'table' => env('FEATUREBOX_TABLE', 'features'),
+];
