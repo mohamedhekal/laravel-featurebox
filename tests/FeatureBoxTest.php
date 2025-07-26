@@ -3,7 +3,6 @@
 namespace MohamedHekal\LaravelFeatureBox\Tests;
 
 use MohamedHekal\LaravelFeatureBox\Facades\FeatureBox;
-use Illuminate\Support\Facades\DB;
 
 class FeatureBoxTest extends TestCase
 {
@@ -43,7 +42,7 @@ class FeatureBoxTest extends TestCase
     {
         $conditions = [
             'environments' => ['testing'],
-            'user_roles' => ['admin']
+            'user_roles' => ['admin'],
         ];
 
         FeatureBox::enable('test_feature', $conditions);

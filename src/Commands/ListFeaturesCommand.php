@@ -26,6 +26,7 @@ class ListFeaturesCommand extends Command
 
         if (empty($features)) {
             $this->info('No features found.');
+
             return 0;
         }
 
@@ -49,6 +50,7 @@ class ListFeaturesCommand extends Command
         }
 
         $this->table($headers, $rows);
+
         return 0;
     }
 }

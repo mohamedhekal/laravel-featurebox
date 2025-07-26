@@ -30,6 +30,7 @@ class EnableFeatureCommand extends Command
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $this->error('Invalid JSON format for conditions');
+
                 return 1;
             }
         }
@@ -37,14 +38,15 @@ class EnableFeatureCommand extends Command
         if ($featureBox->enable($feature, $conditions)) {
             $this->info("Feature '{$feature}' has been enabled successfully!");
 
-            if (!empty($conditions)) {
-                $this->line('Conditions: ' . json_encode($conditions, JSON_PRETTY_PRINT));
+            if (! empty($conditions)) {
+                $this->line('Conditions: '.json_encode($conditions, JSON_PRETTY_PRINT));
             }
 
             return 0;
         }
 
         $this->error("Failed to enable feature '{$feature}'");
+
         return 1;
     }
 }

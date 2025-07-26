@@ -2,7 +2,7 @@
 
 /**
  * Laravel FeatureBox - Basic Usage Examples
- * 
+ *
  * This file demonstrates how to use the FeatureBox package in your Laravel application.
  */
 
@@ -22,7 +22,7 @@ FeatureBox::enable('beta_feature');
 FeatureBox::enable('premium_feature', [
     'environments' => ['production'],
     'user_roles' => ['premium', 'admin'],
-    'start_date' => '2025-01-01'
+    'start_date' => '2025-01-01',
 ]);
 
 // Example 4: Check with context
@@ -30,7 +30,7 @@ $user = auth()->user();
 if (FeatureBox::isEnabled('personalized_content', [
     'user_id' => $user->id,
     'role' => $user->role,
-    'plan' => $user->subscription_plan
+    'plan' => $user->subscription_plan,
 ])) {
     echo "Showing personalized content\n";
 }
@@ -41,14 +41,14 @@ FeatureBox::disable('old_feature');
 // Example 6: List all features
 $features = FeatureBox::all();
 foreach ($features as $feature) {
-    echo "Feature: {$feature['name']} - " .
-        ($feature['is_enabled'] ? 'Enabled' : 'Disabled') . "\n";
+    echo "Feature: {$feature['name']} - ".
+        ($feature['is_enabled'] ? 'Enabled' : 'Disabled')."\n";
 }
 
 // Example 7: Get specific feature
 $feature = FeatureBox::get('new_checkout');
 if ($feature) {
-    echo "Feature conditions: " . json_encode($feature['conditions']) . "\n";
+    echo 'Feature conditions: '.json_encode($feature['conditions'])."\n";
 }
 
 // Example 8: Blade template usage (in your view)
@@ -71,7 +71,7 @@ public function checkout()
     if (FeatureBox::isEnabled('new_checkout')) {
         return view('checkout.new');
     }
-    
+
     return view('checkout.classic');
 }
 */

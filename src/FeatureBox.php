@@ -15,16 +15,16 @@ class FeatureBox implements FeatureBoxInterface
     {
         $featureData = $this->get($feature);
 
-        if (!$featureData) {
+        if (! $featureData) {
             return false;
         }
 
-        if (!$featureData['is_enabled']) {
+        if (! $featureData['is_enabled']) {
             return false;
         }
 
         // Check conditions if any
-        if (!empty($featureData['conditions'])) {
+        if (! empty($featureData['conditions'])) {
             return $this->evaluateConditions($featureData['conditions'], $context);
         }
 
@@ -36,7 +36,7 @@ class FeatureBox implements FeatureBoxInterface
      */
     public function isDisabled(string $feature, array $context = []): bool
     {
-        return !$this->isEnabled($feature, $context);
+        return ! $this->isEnabled($feature, $context);
     }
 
     /**
@@ -55,6 +55,7 @@ class FeatureBox implements FeatureBoxInterface
             );
 
             $this->clearCache();
+
             return true;
         } catch (\Exception $e) {
             return false;
@@ -75,6 +76,7 @@ class FeatureBox implements FeatureBoxInterface
                 ]);
 
             $this->clearCache();
+
             return true;
         } catch (\Exception $e) {
             return false;
@@ -113,7 +115,7 @@ class FeatureBox implements FeatureBoxInterface
                 ->where('name', $feature)
                 ->first();
 
-            if (!$featureData) {
+            if (! $featureData) {
                 return null;
             }
 
@@ -135,7 +137,7 @@ class FeatureBox implements FeatureBoxInterface
         // Environment check
         if (isset($conditions['environments'])) {
             $currentEnv = app()->environment();
-            if (!in_array($currentEnv, $conditions['environments'])) {
+            if (! in_array($currentEnv, $conditions['environments'])) {
                 return false;
             }
         }
@@ -143,14 +145,14 @@ class FeatureBox implements FeatureBoxInterface
         // User roles check
         if (isset($conditions['user_roles']) && isset($context['user_id'])) {
             $user = auth()->user();
-            if (!$user || !in_array($user->role ?? 'user', $conditions['user_roles'])) {
+            if (! $user || ! in_array($user->role ?? 'user', $conditions['user_roles'])) {
                 return false;
             }
         }
 
         // User IDs check
         if (isset($conditions['user_ids']) && isset($context['user_id'])) {
-            if (!in_array($context['user_id'], $conditions['user_ids'])) {
+            if (! in_array($context['user_id'], $conditions['user_ids'])) {
                 return false;
             }
         }
@@ -173,7 +175,7 @@ class FeatureBox implements FeatureBoxInterface
         // Custom conditions check
         if (isset($conditions['custom'])) {
             foreach ($conditions['custom'] as $key => $value) {
-                if (!isset($context[$key]) || $context[$key] !== $value) {
+                if (! isset($context[$key]) || $context[$key] !== $value) {
                     return false;
                 }
             }

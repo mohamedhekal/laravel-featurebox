@@ -26,10 +26,12 @@ class DisableFeatureCommand extends Command
 
         if ($featureBox->disable($feature)) {
             $this->info("Feature '{$feature}' has been disabled successfully!");
+
             return 0;
         }
 
         $this->error("Failed to disable feature '{$feature}'");
+
         return 1;
     }
 }

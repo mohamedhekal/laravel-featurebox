@@ -3,11 +3,10 @@
 namespace MohamedHekal\LaravelFeatureBox;
 
 use Illuminate\Support\ServiceProvider;
-use MohamedHekal\LaravelFeatureBox\Commands\EnableFeatureCommand;
 use MohamedHekal\LaravelFeatureBox\Commands\DisableFeatureCommand;
+use MohamedHekal\LaravelFeatureBox\Commands\EnableFeatureCommand;
 use MohamedHekal\LaravelFeatureBox\Commands\ListFeaturesCommand;
 use MohamedHekal\LaravelFeatureBox\Contracts\FeatureBoxInterface;
-use MohamedHekal\LaravelFeatureBox\FeatureBox;
 
 class FeatureBoxServiceProvider extends ServiceProvider
 {
@@ -17,12 +16,12 @@ class FeatureBoxServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/featurebox.php',
+            __DIR__.'/../config/featurebox.php',
             'featurebox'
         );
 
         $this->app->singleton(FeatureBoxInterface::class, function ($app) {
-            return new FeatureBox();
+            return new FeatureBox;
         });
 
         $this->app->alias(FeatureBoxInterface::class, 'featurebox');
@@ -35,11 +34,11 @@ class FeatureBoxServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/featurebox.php' => config_path('featurebox.php'),
+                __DIR__.'/../config/featurebox.php' => config_path('featurebox.php'),
             ], 'featurebox-config');
 
             $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
+                __DIR__.'/../database/migrations' => database_path('migrations'),
             ], 'featurebox-migrations');
 
             $this->commands([
@@ -49,6 +48,6 @@ class FeatureBoxServiceProvider extends ServiceProvider
             ]);
         }
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 }
