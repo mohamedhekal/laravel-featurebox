@@ -1,0 +1,72 @@
+name: Validate Package
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.2
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, fileinfo
+        coverage: none
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-interaction
+
+    - name: Validate composer.json
+      run: composer validate --strict
+
+    - name: Check for syntax errors
+      run: |
+        find src/ -name "*.php" -exec php -l {} \;
+        find tests/ -name "*.php" -exec php -l {} \;
+
+    - name: Check autoloader
+      run: composer dump-autoload --no-dev
+
+    - name: Validate package structure
+      run: |
+        # Check required files exist
+        test -f composer.json || exit 1
+        test -f README.md || exit 1
+        test -f LICENSE || exit 1
+        test -f CHANGELOG.md || exit 1
+        
+        # Check source directory
+        test -d src/ || exit 1
+        test -f src/FeatureBoxServiceProvider.php || exit 1
+        test -f src/FeatureBox.php || exit 1
+        
+        # Check configuration
+        test -d config/ || exit 1
+        test -f config/featurebox.php || exit 1
+        
+        # Check migrations
+        test -d database/migrations/ || exit 1
+        ls database/migrations/*.php > /dev/null || exit 1
+        
+        echo "✅ Package structure is valid"
+
+    - name: Check documentation
+      run: |
+        # Check if documentation files exist
+        test -f docs/API.md || echo "⚠️  API documentation missing"
+        test -f docs/INSTALLATION.md || echo "⚠️  Installation guide missing"
+        
+        # Check README has required sections
+        grep -q "Installation" README.md || echo "⚠️  README missing Installation section"
+        grep -q "Usage" README.md || echo "⚠️  README missing Usage section"
+        grep -q "License" README.md || echo "⚠️  README missing License section"
+        
+        echo "✅ Documentation check completed" 
