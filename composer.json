@@ -2,6 +2,7 @@
     "name": "mohamedhekal/laravel-featurebox",
     "description": "A simple, flexible feature toggle system for Laravel — control the visibility of features across environments, users, and conditions.",
     "type": "library",
+    "version": "1.0.0",
     "license": "MIT",
     "keywords": [
         "laravel",

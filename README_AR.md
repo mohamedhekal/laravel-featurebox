@@ -1,6 +1,30 @@
 # Laravel FeatureBox
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mohamedhekal/laravel-featurebox.svg)](https://packagist.org/packages/mohamedhekal/laravel-featurebox)
+[![Tests](https://github.com/mohamedhekal/laravel-featurebox/workflows/Tests/badge.svg)](https://github.com/mohamedhekal/laravel-featurebox/actions?query=workflow%3ATests)
+[![Code Style](https://github.com/mohamedhekal/laravel-featurebox/workflows/Code%20Style/badge.svg)](https://github.com/mohamedhekal/laravel-featurebox/actions?query=workflow%3A%22Code+Style%22)
+[![Total Downloads](https://img.shields.io/packagist/dt/mohamedhekal/laravel-featurebox.svg)](https://packagist.org/packages/mohamedhekal/laravel-featurebox)
+[![License](https://img.shields.io/github/license/mohamedhekal/laravel-featurebox.svg)](https://github.com/mohamedhekal/laravel-featurebox/blob/main/LICENSE)
+
 > نظام بسيط ومرن لإدارة ميزات التطبيق في Laravel — تحكم في ظهور الميزات عبر البيئات والمستخدمين والشروط.
+
+---
+
+## 📋 جدول المحتويات
+
+- [المقدمة](#-المقدمة)
+- [البدء السريع](#-البدء-السريع)
+- [التثبيت](#-التثبيت)
+- [الاستخدام](#️-الاستخدام)
+- [شروط الميزات](#-شروط-الميزات)
+- [أوامر Artisan](#-أوامر-artisan)
+- [الإعدادات](#-الإعدادات)
+- [هيكل قاعدة البيانات](#-هيكل-قاعدة-البيانات)
+- [الأمان](#-الأمان)
+- [الاختبار](#-الاختبار)
+- [خطة التطوير](#-خطة-التطوير)
+- [الدعم](#-الدعم)
+- [أمثلة](#-أمثلة)
 
 ---
 
@@ -13,6 +37,47 @@
 مستوحى من أدوات مثل LaunchDarkly، لكن مصمم خصيصاً لـ Laravel.
 
 ---
+
+## ✨ الميزات
+
+- 🚀 **بسيط وخفيف** - سهل التثبيت والاستخدام
+- 🔧 **شروط مرنة** - دعم للبيئات وأدوار المستخدمين والتواريخ والشروط المخصصة
+- ⚡ **أداء عالي** - دعم التخزين المؤقت المدمج
+- 🛠️ **أوامر Artisan** - إدارة الميزات من سطر الأوامر
+- 🔒 **آمن** - لا توجد استدعاءات API خارجية، جميع المنطق محلي
+- 📊 **تخزين قاعدة البيانات** - الميزات مخزنة في قاعدة البيانات الخاصة بك
+- 🧪 **قابل للاختبار** - مجموعة اختبارات شاملة مدمجة
+- 🌍 **متعدد اللغات** - توثيق باللغة الإنجليزية والعربية
+
+---
+
+## 📋 المتطلبات
+
+- PHP >= 8.1
+- Laravel >= 10.0
+- MySQL/PostgreSQL/SQLite
+
+## 🚀 البدء السريع
+
+```bash
+# تثبيت الحزمة
+composer require mohamedhekal/laravel-featurebox
+
+# نشر الإعدادات والـ migrations
+php artisan vendor:publish --tag=featurebox-config
+php artisan vendor:publish --tag=featurebox-migrations
+
+# تشغيل الـ migrations
+php artisan migrate
+
+# تفعيل ميزة
+php artisan featurebox:enable new_checkout
+
+# الاستخدام في الكود
+if (FeatureBox::isEnabled('new_checkout')) {
+    // نظام دفع جديد
+}
+```
 
 ## 📦 التثبيت
 
@@ -224,25 +289,24 @@ public function test_feature_can_be_enabled()
 
 ---
 
-## 🤝 المساهمة
+## 🆘 الدعم
 
-1. Fork المستودع
-2. أنشئ فرع الميزة (`git checkout -b feature/amazing-feature`)
-3. اكتب التغييرات (`git commit -m 'Add some amazing feature'`)
-4. ادفع للفرع (`git push origin feature/amazing-feature`)
-5. افتح Pull Request
-
----
-
-## 📄 الرخصة
-
-هذه الحزمة مفتوحة المصدر تحت رخصة [MIT](LICENSE).
-
----
+- **التوثيق**: [GitHub Wiki](https://github.com/mohamedhekal/laravel-featurebox/wiki)
+- **المشاكل**: [GitHub Issues](https://github.com/mohamedhekal/laravel-featurebox/issues)
+- **المناقشات**: [GitHub Discussions](https://github.com/mohamedhekal/laravel-featurebox/discussions)
+- **البريد الإلكتروني**: [mohamedhekal@gmail.com](mailto:mohamedhekal@gmail.com)
 
 ## 🧑‍💻 مطور بواسطة [محمد هيكل](https://github.com/mohamedhekal)
 
 لا تتردد في إرسال المشاكل أو الأفكار أو Pull Requests.
+
+### 🤝 المساهمة
+
+يرجى الاطلاع على [CONTRIBUTING.md](CONTRIBUTING.md) للتفاصيل.
+
+### 📄 الرخصة
+
+هذه الحزمة مفتوحة المصدر تحت رخصة [MIT](LICENSE).
 
 ---
 

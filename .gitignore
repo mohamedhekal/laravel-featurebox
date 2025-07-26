@@ -14,4 +14,11 @@ yarn-error.log
 coverage/
 .phpunit.cache/
 .DS_Store
-Thumbs.db 
+Thumbs.db
+/build/
+/dist/
+*.zip
+*.tar.gz
+composer.lock
+package-lock.json
+yarn.lock 

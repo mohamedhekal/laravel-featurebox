@@ -1,0 +1,28 @@
+{
+    "name": "laravel-featurebox",
+    "version": "1.0.0",
+    "description": "A simple, flexible feature toggle system for Laravel",
+    "scripts": {
+        "test": "composer test",
+        "test-coverage": "composer test-coverage",
+        "format": "composer format",
+        "check-style": "composer exec -- pint --test",
+        "fix-style": "composer exec -- pint"
+    },
+    "keywords": [
+        "laravel",
+        "feature-flags",
+        "feature-toggles",
+        "php"
+    ],
+    "author": "Mohamed Hekal <mohamedhekal@gmail.com>",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mohamedhekal/laravel-featurebox.git"
+    },
+    "bugs": {
+        "url": "https://github.com/mohamedhekal/laravel-featurebox/issues"
+    },
+    "homepage": "https://github.com/mohamedhekal/laravel-featurebox#readme"
+}

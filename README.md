@@ -1,6 +1,30 @@
 # Laravel FeatureBox
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/mohamedhekal/laravel-featurebox.svg)](https://packagist.org/packages/mohamedhekal/laravel-featurebox)
+[![Tests](https://github.com/mohamedhekal/laravel-featurebox/workflows/Tests/badge.svg)](https://github.com/mohamedhekal/laravel-featurebox/actions?query=workflow%3ATests)
+[![Code Style](https://github.com/mohamedhekal/laravel-featurebox/workflows/Code%20Style/badge.svg)](https://github.com/mohamedhekal/laravel-featurebox/actions?query=workflow%3A%22Code+Style%22)
+[![Total Downloads](https://img.shields.io/packagist/dt/mohamedhekal/laravel-featurebox.svg)](https://packagist.org/packages/mohamedhekal/laravel-featurebox)
+[![License](https://img.shields.io/github/license/mohamedhekal/laravel-featurebox.svg)](https://github.com/mohamedhekal/laravel-featurebox/blob/main/LICENSE)
+
 > A simple, flexible feature toggle system for Laravel — control the visibility of features across environments, users, and conditions.
+
+---
+
+## 📋 Table of Contents
+
+- [Introduction](#-introduction)
+- [Quick Start](#-quick-start)
+- [Installation](#-installation)
+- [Usage](#️-usage)
+- [Feature Conditions](#-feature-conditions)
+- [Artisan Commands](#-artisan-commands)
+- [Configuration](#-configuration)
+- [Database Schema](#-database-schema)
+- [Security](#-security)
+- [Testing](#-testing)
+- [Roadmap](#-roadmap)
+- [Support](#-support)
+- [Examples](#-examples)
 
 ---
 
@@ -13,6 +37,47 @@ Whether you're rolling out features gradually, testing beta features for specifi
 Inspired by tools like LaunchDarkly, but made for Laravel.
 
 ---
+
+## ✨ Features
+
+- 🚀 **Simple & Lightweight** - Easy to install and use
+- 🔧 **Flexible Conditions** - Support for environments, user roles, dates, and custom conditions
+- ⚡ **High Performance** - Built-in caching support
+- 🛠️ **Artisan Commands** - Manage features from the command line
+- 🔒 **Secure** - No external API calls, all logic is local
+- 📊 **Database Storage** - Features stored in your database
+- 🧪 **Testable** - Comprehensive test suite included
+- 🌍 **Multi-language** - Documentation in English and Arabic
+
+---
+
+## 📋 Requirements
+
+- PHP >= 8.1
+- Laravel >= 10.0
+- MySQL/PostgreSQL/SQLite
+
+## 🚀 Quick Start
+
+```bash
+# Install the package
+composer require mohamedhekal/laravel-featurebox
+
+# Publish configuration and migrations
+php artisan vendor:publish --tag=featurebox-config
+php artisan vendor:publish --tag=featurebox-migrations
+
+# Run migrations
+php artisan migrate
+
+# Enable a feature
+php artisan featurebox:enable new_checkout
+
+# Use in your code
+if (FeatureBox::isEnabled('new_checkout')) {
+    // New checkout flow
+}
+```
 
 ## 📦 Installation
 
@@ -224,25 +289,24 @@ public function test_feature_can_be_enabled()
 
 ---
 
-## 🤝 Contributing
+## 🆘 Support
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This package is open-sourced under the [MIT license](LICENSE).
-
----
+- **Documentation**: [GitHub Wiki](https://github.com/mohamedhekal/laravel-featurebox/wiki)
+- **Issues**: [GitHub Issues](https://github.com/mohamedhekal/laravel-featurebox/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/mohamedhekal/laravel-featurebox/discussions)
+- **Email**: [mohamedhekal@gmail.com](mailto:mohamedhekal@gmail.com)
 
 ## 🧑‍💻 Developed by [Mohamed Hekal](https://github.com/mohamedhekal)
 
 Feel free to submit issues, ideas, or pull requests.
+
+### 🤝 Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+### 📄 License
+
+This package is open-sourced under the [MIT license](LICENSE).
 
 ---
 
