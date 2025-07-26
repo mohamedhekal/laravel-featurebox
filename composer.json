@@ -9,7 +9,10 @@
         "feature-flags",
         "feature-toggles",
         "feature-management",
-        "laravel-package"
+        "laravel-package",
+        "feature-control",
+        "a-b-testing",
+        "beta-features"
     ],
     "authors": [
         {
@@ -50,12 +53,38 @@
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
-        "format": "vendor/bin/pint"
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage.xml",
+        "test-coverage-text": "vendor/bin/phpunit --coverage-text",
+        "format": "vendor/bin/pint",
+        "format-check": "vendor/bin/pint --test",
+        "analyse": "vendor/bin/phpstan analyse",
+        "ci": [
+            "@format-check",
+            "@test"
+        ],
+        "prepare": [
+            "@format",
+            "@test"
+        ]
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "support": {
+        "issues": "https://github.com/mohamedhekal/laravel-featurebox/issues",
+        "source": "https://github.com/mohamedhekal/laravel-featurebox",
+        "docs": "https://github.com/mohamedhekal/laravel-featurebox#readme"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/mohamedhekal"
+        }
+    ]
 }

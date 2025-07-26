@@ -5,6 +5,7 @@
 [![Code Style](https://github.com/mohamedhekal/laravel-featurebox/workflows/Code%20Style/badge.svg)](https://github.com/mohamedhekal/laravel-featurebox/actions?query=workflow%3A%22Code+Style%22)
 [![Total Downloads](https://img.shields.io/packagist/dt/mohamedhekal/laravel-featurebox.svg)](https://packagist.org/packages/mohamedhekal/laravel-featurebox)
 [![License](https://img.shields.io/github/license/mohamedhekal/laravel-featurebox.svg)](https://github.com/mohamedhekal/laravel-featurebox/blob/main/LICENSE)
+[![Code Coverage](https://img.shields.io/codecov/c/github/mohamedhekal/laravel-featurebox)](https://codecov.io/gh/mohamedhekal/laravel-featurebox)
 
 > A simple, flexible feature toggle system for Laravel — control the visibility of features across environments, users, and conditions.
 
@@ -18,6 +19,7 @@
 - [Quick Start](#-quick-start)
 - [Installation](#-installation)
 - [Usage](#️-usage)
+- [API Reference](#-api-reference)
 - [Feature Conditions](#-feature-conditions)
 - [Artisan Commands](#-artisan-commands)
 - [Configuration](#-configuration)
@@ -145,6 +147,78 @@ public function checkout()
     
     return view('checkout.classic');
 }
+```
+
+---
+
+## 📚 API Reference
+
+### Core Methods
+
+#### `FeatureBox::isEnabled(string $feature, array $context = []): bool`
+Check if a feature is enabled for the given context.
+
+```php
+// Basic check
+$enabled = FeatureBox::isEnabled('new_feature');
+
+// With context
+$enabled = FeatureBox::isEnabled('premium_feature', [
+    'user_id' => 123,
+    'plan' => 'premium'
+]);
+```
+
+#### `FeatureBox::isDisabled(string $feature, array $context = []): bool`
+Check if a feature is disabled (opposite of `isEnabled`).
+
+```php
+if (FeatureBox::isDisabled('old_feature')) {
+    // Show alternative
+}
+```
+
+#### `FeatureBox::enable(string $feature, array $conditions = []): bool`
+Enable a feature with optional conditions.
+
+```php
+// Enable without conditions
+FeatureBox::enable('simple_feature');
+
+// Enable with conditions
+FeatureBox::enable('conditional_feature', [
+    'environments' => ['production'],
+    'user_roles' => ['admin']
+]);
+```
+
+#### `FeatureBox::disable(string $feature): bool`
+Disable a feature.
+
+```php
+FeatureBox::disable('deprecated_feature');
+```
+
+#### `FeatureBox::get(string $feature): ?array`
+Get detailed information about a feature.
+
+```php
+$feature = FeatureBox::get('my_feature');
+// Returns: [
+//     'name' => 'my_feature',
+//     'is_enabled' => true,
+//     'conditions' => [...],
+//     'created_at' => '2024-01-01 00:00:00',
+//     'updated_at' => '2024-01-01 00:00:00'
+// ]
+```
+
+#### `FeatureBox::all(): array`
+Get all features with their status.
+
+```php
+$features = FeatureBox::all();
+// Returns array of all features
 ```
 
 ---
@@ -357,4 +431,26 @@ FeatureBox::enable('beta_dashboard', [
 FeatureBox::enable('debug_panel', [
     'environments' => ['local']
 ]);
+```
+
+### Gradual Rollout
+
+```php
+// Roll out to 10% of users
+FeatureBox::enable('gradual_rollout', [
+    'custom' => [
+        'rollout_percentage' => 10
+    ]
+]);
+
+// In your code
+$user = auth()->user();
+$rolloutHash = crc32($user->id . 'gradual_rollout');
+$inRollout = ($rolloutHash % 100) < 10;
+
+if (FeatureBox::isEnabled('gradual_rollout', [
+    'rollout_percentage' => $inRollout ? 10 : 0
+])) {
+    // New feature
+}
 ``` 

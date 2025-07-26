@@ -13,6 +13,10 @@ class FeatureBox implements FeatureBoxInterface
      */
     public function isEnabled(string $feature, array $context = []): bool
     {
+        if (empty($feature)) {
+            return false;
+        }
+
         $featureData = $this->get($feature);
 
         if (! $featureData) {
@@ -44,6 +48,10 @@ class FeatureBox implements FeatureBoxInterface
      */
     public function enable(string $feature, array $conditions = []): bool
     {
+        if (empty($feature)) {
+            return false;
+        }
+
         try {
             DB::table('features')->updateOrInsert(
                 ['name' => $feature],
@@ -67,6 +75,10 @@ class FeatureBox implements FeatureBoxInterface
      */
     public function disable(string $feature): bool
     {
+        if (empty($feature)) {
+            return false;
+        }
+
         try {
             DB::table('features')
                 ->where('name', $feature)
@@ -89,19 +101,23 @@ class FeatureBox implements FeatureBoxInterface
     public function all(): array
     {
         return Cache::remember('featurebox.all', 300, function () {
-            return DB::table('features')
-                ->select('name', 'is_enabled', 'conditions', 'created_at', 'updated_at')
-                ->get()
-                ->map(function ($feature) {
-                    return [
-                        'name' => $feature->name,
-                        'is_enabled' => (bool) $feature->is_enabled,
-                        'conditions' => json_decode($feature->conditions, true) ?: [],
-                        'created_at' => $feature->created_at,
-                        'updated_at' => $feature->updated_at,
-                    ];
-                })
-                ->toArray();
+            try {
+                return DB::table('features')
+                    ->select('name', 'is_enabled', 'conditions', 'created_at', 'updated_at')
+                    ->get()
+                    ->map(function ($feature) {
+                        return [
+                            'name' => $feature->name,
+                            'is_enabled' => (bool) $feature->is_enabled,
+                            'conditions' => json_decode($feature->conditions, true) ?: [],
+                            'created_at' => $feature->created_at,
+                            'updated_at' => $feature->updated_at,
+                        ];
+                    })
+                    ->toArray();
+            } catch (\Exception $e) {
+                return [];
+            }
         });
     }
 
@@ -110,22 +126,30 @@ class FeatureBox implements FeatureBoxInterface
      */
     public function get(string $feature): ?array
     {
-        return Cache::remember("featurebox.{$feature}", 300, function () use ($feature) {
-            $featureData = DB::table('features')
-                ->where('name', $feature)
-                ->first();
+        if (empty($feature)) {
+            return null;
+        }
 
-            if (! $featureData) {
+        return Cache::remember("featurebox.{$feature}", 300, function () use ($feature) {
+            try {
+                $featureData = DB::table('features')
+                    ->where('name', $feature)
+                    ->first();
+
+                if (! $featureData) {
+                    return null;
+                }
+
+                return [
+                    'name' => $featureData->name,
+                    'is_enabled' => (bool) $featureData->is_enabled,
+                    'conditions' => json_decode($featureData->conditions, true) ?: [],
+                    'created_at' => $featureData->created_at,
+                    'updated_at' => $featureData->updated_at,
+                ];
+            } catch (\Exception $e) {
                 return null;
             }
-
-            return [
-                'name' => $featureData->name,
-                'is_enabled' => (bool) $featureData->is_enabled,
-                'conditions' => json_decode($featureData->conditions, true) ?: [],
-                'created_at' => $featureData->created_at,
-                'updated_at' => $featureData->updated_at,
-            ];
         });
     }
 
@@ -159,15 +183,23 @@ class FeatureBox implements FeatureBoxInterface
 
         // Date range check
         if (isset($conditions['start_date'])) {
-            $startDate = \Carbon\Carbon::parse($conditions['start_date']);
-            if (now()->lt($startDate)) {
+            try {
+                $startDate = \Carbon\Carbon::parse($conditions['start_date']);
+                if (now()->lt($startDate)) {
+                    return false;
+                }
+            } catch (\Exception $e) {
                 return false;
             }
         }
 
         if (isset($conditions['end_date'])) {
-            $endDate = \Carbon\Carbon::parse($conditions['end_date']);
-            if (now()->gt($endDate)) {
+            try {
+                $endDate = \Carbon\Carbon::parse($conditions['end_date']);
+                if (now()->gt($endDate)) {
+                    return false;
+                }
+            } catch (\Exception $e) {
                 return false;
             }
         }
@@ -191,10 +223,15 @@ class FeatureBox implements FeatureBoxInterface
     {
         Cache::forget('featurebox.all');
 
-        // Clear individual feature caches
-        $features = DB::table('features')->pluck('name');
-        foreach ($features as $feature) {
-            Cache::forget("featurebox.{$feature}");
+        try {
+            // Clear individual feature caches
+            $features = DB::table('features')->pluck('name');
+            foreach ($features as $feature) {
+                Cache::forget("featurebox.{$feature}");
+            }
+        } catch (\Exception $e) {
+            // If we can't get features from DB, just clear the all cache
+            // This is a fallback to prevent cache issues
         }
     }
 }
