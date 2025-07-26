@@ -13,6 +13,8 @@
 ## 📋 Table of Contents
 
 - [Introduction](#-introduction)
+- [Features](#-features)
+- [Requirements](#-requirements)
 - [Quick Start](#-quick-start)
 - [Installation](#-installation)
 - [Usage](#️-usage)
