@@ -12,8 +12,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -32,10 +30,12 @@ jobs:
       run: vendor/bin/pint --test
 
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        name: Release ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
         body: |
           ## What's Changed
           
@@ -92,13 +92,4 @@ jobs:
           
           For more information, see the [documentation](https://github.com/mohamedhekal/laravel-featurebox#readme).
         draft: false
-        prerelease: false
-        files: |
-          composer.json
-          README.md
-          CHANGELOG.md
-          LICENSE
-          docs/API.md
-          docs/INSTALLATION.md
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        prerelease: false 
